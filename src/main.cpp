@@ -13,7 +13,7 @@ using std::sin, std::cos, std::tan,
 int main()
 {
 	int srate   = 32000;
-	int samples = 256;
+	int samples = 100;
 	int bin_sz  = srate/samples;
 	
 	float input[samples] = {};
@@ -26,11 +26,11 @@ int main()
 	}
 	
 	fftwf_complex input_fft[samples] = {};
-
-	// Calculate FFT using FFTW Library
-	auto plan = fftwf_plan_dft_r2c_1d(samples, input, input_fft, FFTW_ESTIMATE);
+	
+	fftwf_import_wisdom_from_filename("assets/fftw_wisdom");
+	auto plan = fftwf_plan_dft_r2c_1d(samples, input, input_fft, FFTW_EXHAUSTIVE);
 	fftwf_execute(plan); fftwf_destroy_plan(plan);
-
+	
 	// FFTs have midpoint symmetry
 	// so only first half is useful
 	float output[samples/2] = {};
