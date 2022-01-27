@@ -1,4 +1,5 @@
-project('quanta', 'cpp', subproject_dir: 'libs',
+project('quanta', 'cpp',
+        subproject_dir: 'libs', meson_version: '>=0.60',
         default_options: ['buildtype=release', 'strip=true',
                           'b_lto=true', 'b_lto_mode=thin',
                           'warning_level=3', 'cpp_std=c++20'])
@@ -6,6 +7,7 @@ project('quanta', 'cpp', subproject_dir: 'libs',
 deps = [
     dependency('threads'),
     dependency('fftw3f', version: '>=3.3'),
+    subproject('ixwebsocket').get_variable('ixwebsocket_dep')
 ]
 
 dir_base = meson.current_source_dir()
